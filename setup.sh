@@ -1,0 +1,2 @@
+export TF_VAR_number_of_worksers=3
+export TF_VAR_do_token="23e39faaf52e8f23fc31d1e15e08cc3b4f97d43c6104b49ac7d2f12ca8f2ac74"

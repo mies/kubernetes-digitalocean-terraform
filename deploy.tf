@@ -14,14 +14,16 @@
 
 variable "do_token" {}
 variable "do_region" {
-    default = "nyc3"
+    default = "ams2"
 }
 variable "ssh_fingerprint" {}
 variable "ssh_private_key" {
     default = "~/.ssh/id_rsa"
 }
 
-variable "number_of_workers" {}
+variable "number_of_workers" {
+    default = "3"
+}
 variable "hyperkube_version" {
     default = "v1.5.4_coreos.0"
 }
@@ -420,18 +422,6 @@ resource "null_resource" "deploy_dns_addon" {
         command = <<EOF
             until kubectl get pods 2>/dev/null; do printf '.'; sleep 5; done
             kubectl create -f ${path.module}/03-dns-addon.yaml
-EOF
-    }
-}
-
-resource "null_resource" "deploy_microbot" {
-    depends_on = ["null_resource.setup_kubectl"]
-    provisioner "local-exec" {
-        command = <<EOF
-            sed -e "s/\$EXT_IP1/${digitalocean_droplet.k8s_worker.0.ipv4_address}/" < ${path.module}/04-microbot.yaml > ./secrets/04-microbot.rendered.yaml
-            until kubectl get pods 2>/dev/null; do printf '.'; sleep 5; done
-            kubectl create -f ./secrets/04-microbot.rendered.yaml
-
 EOF
     }
 }

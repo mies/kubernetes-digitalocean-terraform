@@ -1,0 +1,1 @@
+doctl compute load-balancer create --name k8slb --tag-name k8s-node --region ams2 --health-check protocol:http,port:31512,path:/,check_interval_seconds:10,response_timeout_seconds:5,healthy_threshold:5,unhealthy_threshold:3 --forwarding-rules entry_protocol:TCP,entry_port:80,target_protocol:TCP,target_port:31512
